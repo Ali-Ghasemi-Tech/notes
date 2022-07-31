@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "530436619382",
+    "project_id": "notes-tlb-project",
+    "storage_bucket": "notes-tlb-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530436619382:android:9a076068c66bdbb85d7357",
+        "android_client_info": {
+          "package_name": "com.poggers.notes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530436619382-9jqq8sned5flauebe4as9v28s6ker973.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV-gPRJ876unbqggfNxWBIl5Cp7gueoeo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530436619382-9jqq8sned5flauebe4as9v28s6ker973.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
