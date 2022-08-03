@@ -54,6 +54,8 @@ class _RegisterViewState extends State<RegisterView> {
                   email: email,
                   password: password,
                 );
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/Login/', (route) => false);
                 print(UserCredential);
               } on FirebaseAuthException catch (e) {
                 print('somthing wrong happend');
@@ -67,7 +69,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil('/Login/', (route) => false);
               },
-              child: Text("if you are already logged in press here"))
+              child: const Text("if you are already logged in press here"))
         ],
       ),
     );
