@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../firebase_options.dart';
+import 'dart:developer' as devtools show log;
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -24,12 +25,13 @@ class _RegisterViewState extends State<RegisterView> {
   void dispose() {
     _email.dispose();
     _password.dispose();
+    super.dispose;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Regestir")),
+      appBar: AppBar(title: const Text("Regestir")),
       body: Column(
         children: [
           TextField(
@@ -49,17 +51,17 @@ class _RegisterViewState extends State<RegisterView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final UserCredential =
+                final userCredential =
                     await FirebaseAuth.instance.createUserWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil('/Login/', (route) => false);
-                print(UserCredential);
+                devtools.log(userCredential.toString());
               } on FirebaseAuthException catch (e) {
-                print('somthing wrong happend');
-                print(e.code);
+                devtools.log('somthing wrong happend');
+                devtools.log(e.code.toString());
               }
             },
             child: const Text('Rigester'),
