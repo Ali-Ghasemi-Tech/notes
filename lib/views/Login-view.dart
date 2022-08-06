@@ -4,7 +4,7 @@ import 'dart:developer' as devtools show log;
 
 import 'package:notes/constants/Routs.dart';
 
-import '../utility/show-error-dialog.dart';
+import '../utilities/show-error-dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
