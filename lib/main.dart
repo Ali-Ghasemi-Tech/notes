@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/constants/Routs.dart';
 import 'package:notes/views/Login-view.dart';
 import 'package:notes/views/Register-view.dart';
 import 'package:notes/views/Verefiy-email-view.dart';
@@ -15,10 +16,10 @@ void main() async {
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const Homepage(),
       routes: {
-        '/Login/': (context) => const LoginView(),
-        '/Regestir/': (context) => const RegisterView(),
-        '/notes/': (context) => const Notesview(),
-        '/verefiy/': (context) => const VerifyEmailView()
+        loginRoute: (context) => const LoginView(),
+        registerRoute: (context) => const RegisterView(),
+        notesRoute: (context) => const Notesview(),
+        verefiyRoute: (context) => const VerifyEmailView()
       },
     ),
   );
@@ -76,8 +77,10 @@ class _NotesviewState extends State<Notesview> {
                 final shouldLogout = await showLogOutDialog(context);
                 if (shouldLogout) {
                   await FirebaseAuth.instance.signOut();
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/Login/', (_) => false);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    loginRoute,
+                    (_) => false,
+                  );
                 }
                 break;
             }
