@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -40,15 +42,15 @@ class Homepage extends StatelessWidget {
             final user = FirebaseAuth.instance.currentUser;
             if (user != null) {
               if (user.emailVerified) {
+                return const Notesview();
               } else {
-                const VerifyEmailView();
+                return const VerifyEmailView();
               }
             } else {
-              const LoginView();
+              return const LoginView();
             }
-            return const Notesview();
           default:
-            return const CircularProgressIndicator.adaptive();
+            return const CircularProgressIndicator();
         }
       },
     );
@@ -79,7 +81,7 @@ class _NotesviewState extends State<Notesview> {
                   await FirebaseAuth.instance.signOut();
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     loginRoute,
-                    (_) => false,
+                    (route) => false,
                   );
                 }
                 break;
