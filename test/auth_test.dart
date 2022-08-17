@@ -32,8 +32,8 @@ void main() {
     );
     test('create user should connect with login', () async {
       final badEmailUser = provider.creatUser(
-        email: 'pog@gers.com',
-        password: 'anypassword',
+        email: "pog@gers.com",
+        password: "anypassword",
       );
       expect(
         badEmailUser,
@@ -48,8 +48,8 @@ void main() {
           throwsA(const TypeMatcher<WrongpasswordAuthExecption>()));
 
       final user = await provider.creatUser(
-        email: 'poggers',
-        password: 'hello',
+        email: 'mewo',
+        password: 'mewo',
       );
       expect(provider.currentuser, user);
       expect(user.isEmailVerified, false);
