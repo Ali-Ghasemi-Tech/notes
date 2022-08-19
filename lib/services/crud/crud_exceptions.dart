@@ -4,13 +4,13 @@ class UnableToGetDocumentsDirectory implements Exception {}
 
 class DatabaseIsNotOpen implements Exception {}
 
-class CouldNotDeletUser implements Exception {}
+class CouldNotDeleteUser implements Exception {}
 
 class UserAlredyExists implements Exception {}
 
 class CouldNotFindUser implements Exception {}
 
-class CouldNotDeletNote implements Exception {}
+class CouldNotDeleteNote implements Exception {}
 
 class CouldNotFindNote implements Exception {}
 
