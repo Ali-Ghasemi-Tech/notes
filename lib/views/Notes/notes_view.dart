@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/services/auth/auth_service.dart';
 import 'package:notes/services/crud/notes_services.dart';
-import '../constants/Routs.dart';
-import '../enums/menu_action.dart';
+import '../../constants/Routs.dart';
+import '../../enums/menu_action.dart';
 
 class Notesview extends StatefulWidget {
   const Notesview({Key? key}) : super(key: key);
@@ -33,8 +33,14 @@ class _NotesviewState extends State<Notesview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("main UI"),
+        title: const Text("Your Notes"),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(newNotesRoute);
+            },
+            icon: const Icon(Icons.add),
+          ),
           PopupMenuButton<MenueAction>(onSelected: (value) async {
             switch (value) {
               case MenueAction.logout:
