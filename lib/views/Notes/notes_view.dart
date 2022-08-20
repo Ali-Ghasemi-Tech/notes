@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/services/auth/auth_service.dart';
 import 'package:notes/services/crud/notes_services.dart';
@@ -74,6 +73,7 @@ class _NotesviewState extends State<Notesview> {
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
+                    case ConnectionState.active:
                       return const Text("the notes are loading");
                     default:
                       return const CircularProgressIndicator();
