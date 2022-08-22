@@ -109,6 +109,9 @@ class NotesService {
     return finalnumberOfDeletedNotes;
   }
 
+// this will get the delete data for the note that it should be deleted and
+// it delets the note and it updates the arrey and it gives it to stream controller
+// in which it updates the data on notes view
   Future<void> deleteNote({required int id}) async {
     await _ensureDbIsOpen();
     final db = _getDataBaseOrThrow();
