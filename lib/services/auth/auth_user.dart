@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 @immutable
 class AuthUser {
   final String? email;
-
   final bool isEmailVerified;
   const AuthUser({
     required this.email,

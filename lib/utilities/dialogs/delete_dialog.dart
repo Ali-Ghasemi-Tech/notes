@@ -1,16 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:notes/utilities/dialogs/generic_dialog.dart';
 
-Future<bool> showDeleteDialog(
-  BuildContext context,
-) {
+Future<bool> showDeleteDialog(BuildContext context) {
   return showGenericDialog<bool>(
     context: context,
     title: 'Delete',
-    content: 'are you sure you want to delete this note?',
+    content: 'Are you sure you want to delete this item?',
     optionsBuilder: () => {
-      'cancle': false,
-      'delete': true,
+      'Cancel': false,
+      'Yes': true,
     },
   ).then(
     (value) => value ?? false,

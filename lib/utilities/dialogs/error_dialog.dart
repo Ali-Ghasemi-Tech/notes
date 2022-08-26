@@ -8,11 +8,11 @@ Future<void> showErrorDialog(
 ) {
   return showGenericDialog<void>(
     context: context,
-    title: 'an error has occurrd',
+    title: 'An error occurred',
     content: text,
     // our optionsBuilder is a function which returns a map
     optionsBuilder: () => {
-      'Ok': null,
+      'OK': null,
     },
   );
 }
