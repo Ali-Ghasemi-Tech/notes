@@ -6,7 +6,6 @@
 // the whole point of having this generic file is that we can use diffrent dialogs with only one set of code
 // so it could  be updated with new dialogs at any point in future
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // for each botton we need a text and a value so we map them

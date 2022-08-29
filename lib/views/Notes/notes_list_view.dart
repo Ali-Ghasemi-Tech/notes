@@ -1,18 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:notes/services/crud/notes_services.dart';
+import 'package:notes/services/cloud/cloud_note.dart';
 import 'package:notes/utilities/dialogs/delete_dialog.dart';
 
 // we are defining a function which could be called back inside NOtesListView
 // and it will be called when the user says yes for deleteing a note
-typedef NoteCallback = void Function(DatabaseNote note);
+typedef NoteCallback = void Function(CloudNote note);
 
 // the only thing this file should do is to get the list and show them
 // and make them beutiful
 class NotesListView extends StatelessWidget {
-  final List<DatabaseNote> notes;
+  final Iterable<CloudNote> notes;
   final NoteCallback onDeleteNote;
   final NoteCallback onTap;
 
@@ -30,7 +27,7 @@ class NotesListView extends StatelessWidget {
       itemCount: notes.length,
       // we say our item ???
       itemBuilder: (context, index) {
-        final note = notes[index];
+        final note = notes.elementAt(index);
         // our item will be a title in which it takes the text within our note which the user made and
         // it shows only one line that fits into the screen and if the text inside the note file
         //is more than what is being desplayed on listView it will give it an ellipsis so the user

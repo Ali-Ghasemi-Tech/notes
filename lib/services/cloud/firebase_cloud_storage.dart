@@ -49,13 +49,7 @@ class FirebaseClouStorage {
           .get()
           .then(
             (value) => value.docs.map(
-              (doc) {
-                return CloudNote(
-                  ownerUserId: doc.data()[ownerUserIdFieldName] as String,
-                  documentId: doc.id,
-                  text: doc.data()[textFieldName] as String,
-                );
-              },
+              (doc) => CloudNote.fromSnapShot(doc),
             ),
           );
     } catch (e) {
@@ -63,11 +57,18 @@ class FirebaseClouStorage {
     }
   }
 
-  void createnewNote({required String ownerUserId}) async {
-    await notes.add({
+  Future<CloudNote> createnewNote({required String ownerUserId}) async {
+    final document = await notes.add({
       ownerUserIdFieldName: ownerUserId,
       textFieldName: '',
     });
+    final fetchedNote = await document.get();
+
+    return CloudNote(
+      ownerUserId: ownerUserId,
+      documentId: fetchedNote.id,
+      text: '',
+    );
   }
 
   static final FirebaseClouStorage _shared =
