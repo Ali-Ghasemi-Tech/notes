@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:bloc/bloc.dart';
 import 'package:notes/services/auth/auth_provider.dart';
 import 'package:notes/services/auth/bloc/auth_event.dart';
@@ -15,7 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await provider.initialize();
         final user = provider.currentUser;
         if (user == null) {
-          emit(const AuthStateLoggedOut());
+          emit(const AuthStateLoggedOut(null));
         } else if (!user.isEmailVerified) {
           emit(const AuthStateNeedsVerification());
         } else {
@@ -26,8 +24,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // Login
     on<AuthEventLogIn>(
       (event, emit) async {
-        // we are loading while waiting for the login
-        emit(const AuthStateLoading());
         // these requirements are for loging in a user
         final email = event.email;
         final password = event.password;
@@ -41,16 +37,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthStateLoggedIn(user));
           // since the errors are of type exception we need to define when we have this state
         } on Exception catch (e) {
-          emit(AuthStateLoginFailure(e));
+          emit(AuthStateLoggedOut(e));
         }
       },
     );
     // Logout
     on<AuthEventLogOut>((event, emit) async {
-      emit(const AuthStateLoading());
       try {
+        emit(const AuthStateLoading());
         await provider.logOut();
-        emit(const AuthStateLoggedOut());
+        emit(const AuthStateLoggedOut(null));
       } on Exception catch (e) {
         emit(AuthStateLogoutFailure(e));
       }
