@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart' show immutable;
 import 'package:notes/services/auth/auth_user.dart';
 
@@ -6,8 +7,8 @@ abstract class AuthState {
   const AuthState();
 }
 
-class AuthStateLoading extends AuthState {
-  const AuthStateLoading();
+class AuthStateUnInitialized extends AuthState {
+  const AuthStateUnInitialized();
 }
 
 class AuthStateLoggedIn extends AuthState {
@@ -19,14 +20,22 @@ class AuthStateNeedsVerification extends AuthState {
   const AuthStateNeedsVerification();
 }
 
-// why we making the exceptions in here?
-// becuase if the user cant login then the state remains loggedout but with exceptions
-class AuthStateLoggedOut extends AuthState {
+class AuthStateRegistering extends AuthState {
   final Exception? exception;
-  const AuthStateLoggedOut(this.exception);
+
+  const AuthStateRegistering(this.exception);
 }
 
-class AuthStateLogoutFailure extends AuthState {
-  final Exception exception;
-  const AuthStateLogoutFailure(this.exception);
+// why we making the exceptions in here?
+// becuase if the user cant login then the state remains loggedout but with exceptions
+class AuthStateLoggedOut extends AuthState with EquatableMixin {
+  final Exception? exception;
+  final bool isLoading;
+  const AuthStateLoggedOut({
+    required this.exception,
+    required this.isLoading,
+  });
+
+  @override
+  List<Object?> get props => [exception, isLoading];
 }

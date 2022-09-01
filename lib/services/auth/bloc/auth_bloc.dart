@@ -5,7 +5,27 @@ import 'package:notes/services/auth/bloc/auth_state.dart';
 
 // it wants a provider of logic and we have that in auth provider
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(AuthProvider provider) : super(const AuthStateLoading()) {
+  AuthBloc(AuthProvider provider) : super(const AuthStateUnInitialized()) {
+// send email verification
+    on<AuthEventSentEmailVerification>((event, emit) async {
+      await provider.sendEmailVerification();
+      emit(state);
+    });
+    // Register
+    on<AuthEventRegister>((event, emit) async {
+      final email = event.email;
+      final password = event.password;
+      try {
+        await provider.createUser(
+          email: email,
+          password: password,
+        );
+        await provider.sendEmailVerification();
+        emit(const AuthStateNeedsVerification());
+      } on Exception catch (e) {
+        emit(AuthStateRegistering(e));
+      }
+    });
 // there is nothing in initialize to be made so event doesn't do anything.
     // Initialize
     on<AuthEventInitialize>(
@@ -13,7 +33,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await provider.initialize();
         final user = provider.currentUser;
         if (user == null) {
-          emit(const AuthStateLoggedOut(null));
+          emit(
+            const AuthStateLoggedOut(
+              exception: null,
+              isLoading: false,
+            ),
+          );
         } else if (!user.isEmailVerified) {
           emit(const AuthStateNeedsVerification());
         } else {
@@ -24,6 +49,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // Login
     on<AuthEventLogIn>(
       (event, emit) async {
+        emit(
+          const AuthStateLoggedOut(
+            exception: null,
+            isLoading: true,
+          ),
+        );
+
         // these requirements are for loging in a user
         final email = event.email;
         final password = event.password;
@@ -34,22 +66,57 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             email: email,
             password: password,
           );
-          emit(AuthStateLoggedIn(user));
+          if (!user.isEmailVerified) {
+            emit(
+              const AuthStateLoggedOut(
+                exception: null,
+                isLoading: false,
+              ),
+            );
+            emit(
+              const AuthStateNeedsVerification(),
+            );
+          } else {
+            emit(
+              const AuthStateLoggedOut(
+                exception: null,
+                isLoading: false,
+              ),
+            );
+            emit(AuthStateLoggedIn(user));
+          }
+
           // since the errors are of type exception we need to define when we have this state
         } on Exception catch (e) {
-          emit(AuthStateLoggedOut(e));
+          emit(
+            AuthStateLoggedOut(
+              exception: e,
+              isLoading: false,
+            ),
+          );
         }
       },
     );
     // Logout
-    on<AuthEventLogOut>((event, emit) async {
-      try {
-        emit(const AuthStateLoading());
-        await provider.logOut();
-        emit(const AuthStateLoggedOut(null));
-      } on Exception catch (e) {
-        emit(AuthStateLogoutFailure(e));
-      }
-    });
+    on<AuthEventLogOut>(
+      (event, emit) async {
+        try {
+          await provider.logOut();
+          emit(
+            const AuthStateLoggedOut(
+              exception: null,
+              isLoading: false,
+            ),
+          );
+        } on Exception catch (e) {
+          emit(
+            AuthStateLoggedOut(
+              exception: e,
+              isLoading: false,
+            ),
+          );
+        }
+      },
+    );
   }
 }
