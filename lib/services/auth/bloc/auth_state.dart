@@ -4,37 +4,57 @@ import 'package:notes/services/auth/auth_user.dart';
 
 @immutable
 abstract class AuthState {
-  const AuthState();
+  final bool isLoading;
+  final String? loadingText;
+  const AuthState({
+    this.loadingText = 'please wait a moment',
+    required this.isLoading,
+  });
 }
 
 class AuthStateUnInitialized extends AuthState {
-  const AuthStateUnInitialized();
+  const AuthStateUnInitialized({required bool isLoading})
+      : super(
+          isLoading: isLoading,
+        );
 }
 
 class AuthStateLoggedIn extends AuthState {
   final AuthUser user;
-  const AuthStateLoggedIn(this.user);
+  const AuthStateLoggedIn({required this.user, required bool isLoading})
+      : super(
+          isLoading: isLoading,
+        );
 }
 
 class AuthStateNeedsVerification extends AuthState {
-  const AuthStateNeedsVerification();
+  const AuthStateNeedsVerification({required bool isLoading})
+      : super(
+          isLoading: isLoading,
+        );
 }
 
 class AuthStateRegistering extends AuthState {
   final Exception? exception;
 
-  const AuthStateRegistering(this.exception);
+  const AuthStateRegistering({required this.exception, required bool isLoading})
+      : super(
+          isLoading: isLoading,
+        );
 }
 
 // why we making the exceptions in here?
 // becuase if the user cant login then the state remains loggedout but with exceptions
 class AuthStateLoggedOut extends AuthState with EquatableMixin {
   final Exception? exception;
-  final bool isLoading;
   const AuthStateLoggedOut({
     required this.exception,
-    required this.isLoading,
-  });
+    required bool isLoading,
+    String? loadingText,
+  }) : super(
+          isLoading: isLoading,
+          loadingText: loadingText,
+        );
 
   @override
   List<Object?> get props => [exception, isLoading];
