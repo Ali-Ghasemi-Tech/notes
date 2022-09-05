@@ -37,10 +37,21 @@ class AuthStateNeedsVerification extends AuthState {
 class AuthStateRegistering extends AuthState {
   final Exception? exception;
 
-  const AuthStateRegistering({required this.exception, required bool isLoading})
+  const AuthStateRegistering({required this.exception, required isLoading})
       : super(
           isLoading: isLoading,
         );
+}
+
+class AuthStateForgotPassword extends AuthState {
+  final Exception? exception;
+  final bool hasSentEmail;
+
+  const AuthStateForgotPassword({
+    required bool isLoading,
+    required this.exception,
+    required this.hasSentEmail,
+  }) : super(isLoading: isLoading);
 }
 
 // why we making the exceptions in here?

@@ -11,6 +11,7 @@ import 'package:notes/views/Notes/create_update_note_View.dart';
 import 'package:notes/views/Register-view.dart';
 import 'package:notes/views/Verefiy-email-view.dart';
 import 'package:notes/views/Notes/notes_view.dart';
+import 'package:notes/views/forgot_password_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +45,7 @@ class HomePage extends StatelessWidget {
               context: context,
               text: state.loadingText ?? 'please wait a momentS');
         } else {
-          LoadingScreen().hide;
+          LoadingScreen().hide();
         }
       },
       builder: (context, state) {
@@ -54,6 +55,8 @@ class HomePage extends StatelessWidget {
           return const VerifyEmailView();
         } else if (state is AuthStateLoggedOut) {
           return const LoginView();
+        } else if (state is AuthStateForgotPassword) {
+          return const ForgotPasswordView();
         } else if (state is AuthStateRegistering) {
           return const RegisterView();
         } else {
